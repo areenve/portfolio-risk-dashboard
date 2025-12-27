@@ -1,0 +1,11 @@
+ticker,asset_class,sector
+SPY.US,Equity,US Broad
+QQQ.US,Equity,US Tech
+IWM.US,Equity,US Small
+TLT.US,Bond,US Long
+IEF.US,Bond,US Intermediate
+GLD.US,Commodity,Gold
+VNQ.US,Equity,REIT
+UUP.US,FX,USD
+XLF.US,Equity,Financials
+XLK.US,Equity,Technology
