@@ -44,11 +44,11 @@ Recommended report pages:
 ## Quickstart
 
 ### 1) Create a virtual environment and install dependencies
-
+```
 python -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.txt
-
+```
 ### 2) Configure the universe (tickers)
 
 Edit:
@@ -61,7 +61,7 @@ TLT.US,Bonds,US Treasury
 GLD.US,Commodity,Gold
 
 ### 3) Run the pipeline (CSV outputs for Power BI)
-
+```
 python src/01_fetch_prices.py --start 2018-01-01 --end 2025-12-26
 
 python src/02_make_positions.py
@@ -71,9 +71,9 @@ python src/03_build_portfolio.py
 python src/04_compute_risk.py
 
 python src/05_stress_tests.py
-
+```
 **Expected outputs (in data/processed/):**
-
+```
 prices.parquet
 
 positions.csv
@@ -91,7 +91,7 @@ stress_daily.csv
 dim_date.csv
 
 dim_asset.csv
-
+```
 ### 4) Build the Power BI upload workbook (ensures real Excel date types)
 
 python src/07_export_powerbi_excel.py
@@ -128,7 +128,7 @@ Upload:
 ### Relationships to create (Model view)
 
 Create these relationships (1:* , single direction, active):
-
+```
 dim_date[date] → portfolio_daily[date]
 
 dim_date[date] → risk_daily[date]
@@ -138,27 +138,27 @@ dim_date[date] → risk_contrib[date]
 dim_date[date] → stress_daily[date]
 
 dim_asset[ticker] → risk_contrib[ticker]
-
+```
 ### Visuals (recommended)
 ***Overview page***
 
-Slicer: dim_date[date] (Between)
+`Slicer:` dim_date[date] (Between)
 
-Line: portfolio_daily[portfolio_value] by dim_date[date]
+`Line:` portfolio_daily[portfolio_value] by dim_date[date]
 
-Line/Area: risk_daily[drawdown] by dim_date[date]
+`Line/Area:` risk_daily[drawdown] by dim_date[date]
 
-Combo: daily return vs 30D vol (portfolio_return columns, vol_30 line)
+`Combo:` daily return vs 30D vol (portfolio_return columns, vol_30 line)
 
-Cards: latest value / max drawdown / vol / beta / VaR
+`Cards:` latest value / max drawdown / vol / beta / VaR
 
-Bar: risk contribution (Top 10) using risk_contrib[rc_share] by ticker
+`Bar:` risk contribution (Top 10) using risk_contrib[rc_share] by ticker
 
 ***Stress Tests page***
 
-Baseline chart (scenario = Baseline)
+`Baseline chart (scenario = Baseline)`
 
-Scenario chart (exclude Baseline) with scenario slicer
+`Scenario chart (exclude Baseline) with scenario slicer`
 
 ### Notes on the metrics
 ***Rolling vol (30/60/252)*** is null for early dates because the window needs enough history.
@@ -177,15 +177,17 @@ Check “Edit interactions” to ensure slicer filters each visual.
 
 **Excel dates imported as text**
 Always create the workbook via:
-
+```
 python src/07_export_powerbi_excel.py
-
+```
 This forces real Excel date types.
 
-### Repo screenshot / artifacts
-See docs/powerbi/ for exported visuals (PDF/screenshots).
+### Figures (Power BI)
 
+![OVERVIEW](docs/powerbi/overview.png)
+![STRESS_MODEL](docs/powerbi/stress_model.png)
 
 
 ### Author
 Arina Veprikova
+
